@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import fs from "fs";
+import * as fs from "node:fs/promises";
 
 const aliensmeta = [
   {
@@ -57,15 +57,17 @@ type Data = { aliens: Alien[] };
 export const getServerSideProps: GetServerSideProps<{
   data: Data;
 }> = async () => {
-  const mugshotFilenames = fs
-    .readdirSync("public/alien-mugshots")
-    .map((filename) => `/alien-mugshots/${filename}`);
+  const mugshotFilenames = await fs.readdir("public/alien-mugshots");
+  console.log(mugshotFilenames);
+  const formattedFilenames = mugshotFilenames.map(
+    (filename) => `/alien-mugshots/${filename}`
+  );
 
   const aliens: Alien[] = aliensmeta.map((alien, index) => {
     return {
       name: alien.name,
       testimony: alien.testimony,
-      src: mugshotFilenames[index],
+      src: formattedFilenames[index],
     };
   });
 
