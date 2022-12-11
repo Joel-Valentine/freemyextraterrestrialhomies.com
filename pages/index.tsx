@@ -1,7 +1,6 @@
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import fs from "fs";
-import { aliensmeta } from "./aliens.json";
+import jsondata from "./aliens.json";
 
 import { InferGetServerSidePropsType } from "next";
 import { GetServerSideProps } from "next";
@@ -20,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<{
     .readdirSync("public/alien-mugshots")
     .map((filename) => `/alien-mugshots/${filename}`);
 
-  const aliens: Alien[] = aliensmeta.map((alien, index) => {
+  const aliens: Alien[] = jsondata.aliensmeta.map((alien, index) => {
     return {
       name: alien.name,
       testimony: alien.testimony,
