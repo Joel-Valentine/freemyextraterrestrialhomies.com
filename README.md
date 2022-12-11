@@ -18,17 +18,16 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+## Aims
+To test the capabilities of using AI tools for web development as of December 2022. The current available tools in use for this project are:
 
-To learn more about Next.js, take a look at the following resources:
+- Dalle mini for all images
+- https://chat.openai.com/chat/ for all text, coding, idea generation, styling
+- Github co-pilot for additional autocomplete
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The quality and feel of this website will come down to the quality of the AI tools used. The goal is to create a website that is as good as a human could produce, but with the speed and efficiency of a machine. My initial thoughts are that this will be a very difficult task, but I am excited to see what can be achieved.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Even the majority of this readme was written by Github copilot. I have only edited the text to make it more readable. code was edited to work in cases where context was lost during openai's chat.
 
-## Deploy on Vercel
+There is a lot to be said about the potential automation of web development. I am excited to see what can be achieved. And discover what the limitations are.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
