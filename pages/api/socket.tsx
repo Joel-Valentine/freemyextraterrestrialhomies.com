@@ -1,14 +1,14 @@
 import { Server } from "socket.io";
 
-const messageHandler = (io, socket) => {
-  const createdMessage = (msg) => {
+const messageHandler = (io: any, socket: any) => {
+  const createdMessage = (msg: any) => {
     socket.broadcast.emit("newIncomingMessage", msg);
   };
 
   socket.on("createdMessage", createdMessage);
 };
 
-export default function SocketHandler(req, res) {
+export default function SocketHandler(req: any, res: any) {
   // It means that socket server was already initialised
   if (res.socket.server.io) {
     console.log("Already set up");
@@ -19,7 +19,7 @@ export default function SocketHandler(req, res) {
   const io = new Server(res.socket.server);
   res.socket.server.io = io;
 
-  const onConnection = (socket) => {
+  const onConnection = (socket: any) => {
     messageHandler(io, socket);
   };
 

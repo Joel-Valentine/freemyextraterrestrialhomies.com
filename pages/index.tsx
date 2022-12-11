@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, KeyboardEvent } from "react";
 import Image from "next/image";
 import io from "socket.io-client";
 
-let socket;
+let socket: any;
 
 type Message = {
   author: string;
@@ -161,7 +161,7 @@ const Chatroom = () => {
 
     socket = io();
 
-    socket.on("newIncomingMessage", (msg) => {
+    socket.on("newIncomingMessage", (msg: any) => {
       setMessages((currentMsg) => [
         ...currentMsg,
         { author: msg.author, message: msg.message },
@@ -179,9 +179,9 @@ const Chatroom = () => {
     setMessage("");
   };
 
-  const handleKeypress = (e) => {
+  const handleKeypress = (e: KeyboardEvent) => {
     //it triggers by pressing the enter key
-    if (e.keyCode === 13) {
+    if (e.key === "Enter") {
       if (message) {
         sendMessage();
       }
