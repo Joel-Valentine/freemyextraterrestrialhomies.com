@@ -116,7 +116,7 @@ export default function Home({
     <>
       <Header />
       <div className="list">
-        {data.aliens?.map((filename) => Mugshot(filename))}
+        {data?.aliens?.map((filename) => Mugshot(filename))}
       </div>
     </>
   );
