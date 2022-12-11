@@ -1,4 +1,5 @@
 import Image from "next/image";
+import styles from "../styles/Home.module.css";
 import fs from "fs";
 import jsondata from "./aliens.json";
 
@@ -38,19 +39,11 @@ export const getServerSideProps: GetServerSideProps<{
 
 const Mugshot = (filename: Alien) => {
   return (
-    <>
-      <div className="item">
-        <Image
-          src={filename.src}
-          alt="alien"
-          width={223}
-          height={230}
-          key={filename.name}
-        />
-        <h3>{filename.name}</h3>
-        <p>{filename.testimony}</p>
-      </div>
-    </>
+    <div className="item" key={filename.name}>
+      <Image src={filename.src} alt="alien" width={223} height={230} />
+      <h3>{filename.name}</h3>
+      <p>{filename.testimony}</p>
+    </div>
   );
 };
 
