@@ -10,10 +10,10 @@ const aliensmeta: Alien[] = [
     src: "/alien-mugshots/alien-2.png",
   },
   {
-    name: "Xenthor-Omega",
+    name: "Vy'keen",
     testimony:
       "I didn't do nothing wrong, I was just flexing my skills and they hatin' on me.",
-    src: "/alien-mugshots/extraterrestrial alien mug shots with a UFO in area 51 (1).png",
+    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-4.png",
   },
   {
     name: "Ullian 00-11Z",
@@ -28,10 +28,10 @@ const aliensmeta: Alien[] = [
     src: "/alien-mugshots/extraterrestrial-alien-mug-shot-3.png",
   },
   {
-    name: "Vy'keen",
+    name: "Xenthor-Omega",
     testimony:
       "You got the wrong Zeta, homes. I ain't done nothin' to nobody, I swear on my mothership.",
-    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-4.png",
+    src: "/alien-mugshots/extraterrestrial alien mug shots with a UFO in area 51 (1).png",
   },
   {
     name: "Wrygon",
