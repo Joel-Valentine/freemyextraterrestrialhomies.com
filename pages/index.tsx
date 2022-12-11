@@ -34,10 +34,24 @@ const aliensmeta: Alien[] = [
     src: "/alien-mugshots/extraterrestrial alien mug shots with a UFO in area 51 (1).png",
   },
   {
+    name: "Žşąğğą",
+    testimony:
+      "I done wasted more humans than I can count, and I ain't never gonna stop. They ain't never gonna learn their lesson",
+    src: "/alien-mugshots/Mugshots of extra terrestrial aliens taken when being booked into Area 51 with star wars style alien features.png",
+  },
+  {
     name: "Wrygon",
     testimony:
       "Yo, I ain't done nothin' wrong, dawg. I was just passin' through, tryna find my way back home.",
     src: "/alien-mugshots/extraterrestrial-alien-mug-shot-5.png",
+  },
+  {
+    name: "Barry",
+    testimony:
+      "I was on holiday in Ibiza with me bird Stacey, and we ended up getting abducted by the Area 51 crews!",
+    additionalTestimony:
+      "My name is Barry, and I'm not an alien, I swear on me mum's Sunday roast! I used to be a regular Brexit geezer from Essex, who loved watching North FC and going to the pub with me mates. But one summer, I was on holiday in Ibiza with me bird Stacey, and we ended up getting abducted by the Area 51 crews! I don't know how it happened, but somehow they mistook us for aliens and booked us into their secret facility. I promise you, I'm human just like you, and I just want to go home and watch North FC with me mates!",
+    src: "/alien-mugshots/Mugshots of extra terrestrial aliens taken when being booked into Area 51.png",
   },
   {
     name: "Kroxon",
@@ -56,6 +70,7 @@ interface Alien {
   name: string;
   src: string;
   testimony: string;
+  additionalTestimony?: string;
 }
 
 const Mugshot = (alien: Alien) => {
