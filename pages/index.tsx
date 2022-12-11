@@ -1,91 +1,67 @@
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import * as fs from "node:fs/promises";
 
-const aliensmeta = [
+const aliensmeta: Alien[] = [
   {
     name: "Zorgath",
     testimony:
       "I ain't no threat to nobody, boss. I'm just a peaceful alien tryna coexist with y'all.",
+    src: "/alien-mugshots/alien-2.png",
   },
   {
     name: "Xenthor-Omega",
     testimony:
       "I didn't do nothing wrong, I was just flexing my skills and they hatin' on me.",
+    src: "/alien-mugshots/extraterrestrial alien mug shots with a UFO in area 51 (1).png",
   },
   {
     name: "Ullian 00-11Z",
     testimony:
       "They locked me up for no reason, I'm just a baller trying to get paid.",
+    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-2.png",
   },
   {
     name: "Thorgon",
     testimony:
       "I'm innocent, I swear it on my momma's grave. They got the wrong Arcturian, I was just living my life.",
+    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-3.png",
   },
   {
     name: "Vy'keen",
     testimony:
       "You got the wrong Zeta, homes. I ain't done nothin' to nobody, I swear on my mothership.",
+    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-4.png",
   },
   {
     name: "Wrygon",
     testimony:
       "Yo, I ain't done nothin' wrong, dawg. I was just passin' through, tryna find my way back home.",
+    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-5.png",
   },
   {
     name: "Kroxon",
     testimony: "I'm just tryna find my way back home, you feel me?",
+    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-6.png",
   },
   {
     name: "Tythor Qoppa",
     testimony:
       "They say I'm a danger to society, but I'm just a player trying to shine in this game of life.",
+    src: "/alien-mugshots/extraterrestrial-alien-mug-shot-7.png",
   },
 ];
-
-import { InferGetServerSidePropsType } from "next";
-import { GetServerSideProps } from "next";
 
 interface Alien {
   name: string;
   src: string;
   testimony: string;
 }
-type Data = { aliens: Alien[] };
 
-export const getServerSideProps: GetServerSideProps<{
-  data: Data;
-}> = async () => {
-  const mugshotFilenames = await fs.readdir("./public/alien-mugshots");
-  console.log(mugshotFilenames);
-  const formattedFilenames = mugshotFilenames.map(
-    (filename) => `/alien-mugshots/${filename}`
-  );
-
-  const aliens: Alien[] = aliensmeta.map((alien, index) => {
-    return {
-      name: alien.name,
-      testimony: alien.testimony,
-      src: formattedFilenames[index],
-    };
-  });
-
-  const data: Data = { aliens };
-
-  return {
-    props: {
-      data,
-    },
-  };
-};
-
-const Mugshot = (filename: Alien) => {
+const Mugshot = (alien: Alien) => {
   return (
-    <div className="item" key={filename.name}>
-      <Image src={filename.src} alt="alien" width={223} height={230} />
-      <h3>{filename.name}</h3>
-      <p>{filename.testimony}</p>
+    <div className="item" key={alien.name}>
+      <Image src={alien.src} alt="alien" width={223} height={230} />
+      <h3>{alien.name}</h3>
+      <p>{alien.testimony}</p>
     </div>
   );
 };
@@ -111,15 +87,11 @@ const Header = () => {
   );
 };
 
-export default function Home({
-  data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home() {
   return (
     <>
       <Header />
-      <div className="list">
-        {data?.aliens?.map((filename) => Mugshot(filename))}
-      </div>
+      <div className="list">{aliensmeta.map((alien) => Mugshot(alien))}</div>
     </>
   );
 }
