@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Image from "next/image";
 
 const aliensmeta: Alien[] = [
@@ -67,31 +69,52 @@ const Mugshot = (alien: Alien) => {
 };
 
 const Header = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState(aliensmeta);
+
+  const handleSearch = (event) => {
+    const searchTerm = event.target.value;
+    setSearchTerm(searchTerm);
+    const results = aliensmeta.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+  };
+
   return (
-    <header>
-      <div className="logo">Free My Extraterrestrial Homies</div>
-      <nav>
-        <ul className="nav-links">
-          <li>
-            <a href="#">Catalog</a>
-          </li>
-          <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <>
+      <div className="header-container">
+        <h1 className="header-title">FREE MY EXTRATERRESTRIAL HOMIES</h1>
+        <p className="header-subtitle">
+          A Campaign for Equal Rights for All Beings
+        </p>
+        <div className="header-search">
+          <input
+            type="text"
+            className="header-search-input"
+            onChange={handleSearch}
+            value={searchTerm}
+            placeholder="Search"
+          />
+        </div>
+      </div>
+      <AllAliens aliens={searchResults} />
+    </>
   );
 };
 
+const AllAliens = (props) => {
+  const { aliens } = props;
+  return <div className="list">{aliens.map((alien) => Mugshot(alien))}</div>;
+};
+
 export default function Home() {
+  const [searchResults] = useState(aliensmeta);
+  console.log(searchResults);
+
   return (
     <>
       <Header />
-      <div className="list">{aliensmeta.map((alien) => Mugshot(alien))}</div>
     </>
   );
 }
