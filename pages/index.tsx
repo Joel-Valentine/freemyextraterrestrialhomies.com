@@ -83,6 +83,19 @@ const Mugshot = (alien: Alien) => {
   );
 };
 
+const Logo = () => {
+  return (
+    <div className="header-logo">
+      <Image
+        src="/The head of the extra terrestrial freedom group logo similar to CIA and FBI but for freeing aliens.png"
+        alt="logo"
+        width={70}
+        height={70}
+      />
+    </div>
+  );
+};
+
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(aliensmeta);
@@ -100,6 +113,8 @@ const Header = () => {
     <>
       <div className="header-container">
         <h1 className="header-title">FREE MY EXTRATERRESTRIAL HOMIES</h1>
+        <Logo />
+
         <p className="header-subtitle">
           A Campaign for Equal Rights for All Beings
         </p>
