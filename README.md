@@ -31,3 +31,5 @@ Even the majority of this readme was written by Github copilot. I have only edit
 
 There is a lot to be said about the potential automation of web development. I am excited to see what can be achieved. And discover what the limitations are.
 
+## Caveats
+It is very likely that openais chatbot does not follow best standards or even good practices. This is not a concern for this project. 
