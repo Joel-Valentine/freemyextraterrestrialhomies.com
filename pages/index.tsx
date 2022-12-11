@@ -72,7 +72,7 @@ const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(aliensmeta);
 
-  const handleSearch = (event) => {
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
     const results = aliensmeta.filter((item) =>
@@ -103,7 +103,7 @@ const Header = () => {
   );
 };
 
-const AllAliens = (props) => {
+const AllAliens = (props: { aliens: Alien[] }) => {
   const { aliens } = props;
   return <div className="list">{aliens.map((alien) => Mugshot(alien))}</div>;
 };
