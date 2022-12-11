@@ -33,3 +33,7 @@ There is a lot to be said about the potential automation of web development. I a
 
 ## Caveats
 It is very likely that openais chatbot does not follow best standards or even good practices. This is not a concern for this project. 
+
+## Problems
+- Often openais chat would get stuck answering a question and would not complete the answer, resulting in many retries
+- It was able to suggest to build a chatroom, but unable to produce working code for it. I ended up using https://betterprogramming.pub/socket-io-and-nextjs-build-real-time-chat-application-part-1-976555ecba as a guide
