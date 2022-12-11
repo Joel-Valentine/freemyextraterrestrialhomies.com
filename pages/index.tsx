@@ -57,7 +57,7 @@ type Data = { aliens: Alien[] };
 export const getServerSideProps: GetServerSideProps<{
   data: Data;
 }> = async () => {
-  const mugshotFilenames = await fs.readdir("public/alien-mugshots");
+  const mugshotFilenames = await fs.readdir("./public/alien-mugshots");
   console.log(mugshotFilenames);
   const formattedFilenames = mugshotFilenames.map(
     (filename) => `/alien-mugshots/${filename}`
