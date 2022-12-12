@@ -22,6 +22,7 @@ const Chatroom: React.FC = () => {
 
   useEffect(() => {
     // connect to socket server
+    console.log(process.env.BASE_URL);
     // @ts-ignore
     const socket = SocketIOClient.connect(process.env.BASE_URL, {
       path: "/api/socketio",
