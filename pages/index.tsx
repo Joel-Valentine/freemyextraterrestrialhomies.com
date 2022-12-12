@@ -226,6 +226,12 @@ const Header = () => {
 
   const handleLogoClick = () => setShowUfo(!showUfo);
 
+  useEffect(() =>
+    window.addEventListener("explodeUfo", () =>
+      setTimeout(() => setShowUfo(false), 1000)
+    )
+  );
+
   return (
     <>
       <div className="header-container">
