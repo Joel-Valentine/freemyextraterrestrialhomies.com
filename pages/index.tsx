@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import SocketIOClient from "socket.io-client";
+import { io } from "socket.io-client";
 
 interface IMsg {
   user: string;
@@ -22,8 +22,7 @@ const Chatroom: React.FC = () => {
 
   useEffect(() => {
     // connect to socket server
-    // @ts-ignore
-    const socket = SocketIOClient.connect(process.env.BASE_URL, {
+    const socket = io(process.env.BASE_URL, {
       path: "/api/socketio",
     });
 
