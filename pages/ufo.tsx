@@ -8,7 +8,7 @@ const UFO = () => {
 
   useEffect(() => {
     const screenWidth = window.innerWidth - 120;
-    const screenHeight = window.outerHeight - 60;
+    const screenHeight = window.document.documentElement.scrollHeight - 60;
 
     const move = setInterval(() => {
       if (x + dx > screenWidth || x + dx < 0) {
