@@ -1,6 +1,7 @@
 import { NextApiRequest } from "next";
+import { NextApiResponseServerIO } from "./socketio";
 
-export default (req: NextApiRequest, res: any) => {
+const handle = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (req.method === "POST") {
     // get message
     const message = req.body;
@@ -12,3 +13,5 @@ export default (req: NextApiRequest, res: any) => {
     res.status(201).json(message);
   }
 };
+
+export default handle;
