@@ -31,8 +31,8 @@ const UFO = () => {
       if (y + dy > screenHeight || y + dy < 0) {
         setDy(-dy);
       }
-      setX(x + dx);
-      setY(y + dy);
+      setX(x + dx + Math.sin(y / 200));
+      setY(y + dy + Math.cos(x / 200));
     }, 10);
 
     return () => clearInterval(move);
