@@ -5,8 +5,8 @@ const ufoImage = "/ufo clipart surrounded by white background.png";
 const explosionImage = "/clipart explosion with white background.png";
 
 const UFO = () => {
-  const [x, setX] = useState(1);
-  const [y, setY] = useState(1);
+  const [x, setX] = useState(-100);
+  const [y, setY] = useState(-100);
   const [dx, setDx] = useState(2);
   const [dy, setDy] = useState(1);
   const [imageUrl, setImageUrl] = useState(ufoImage);
@@ -55,10 +55,10 @@ const UFO = () => {
 
       setX(x + dx + Math.sin(y / 200));
       setY(y + dy + Math.cos(x / 200));
-    }, 5);
+    }, 6);
 
     return () => clearInterval(move);
-  }, [x]);
+  }, [x, y]);
 
   return (
     <Image
