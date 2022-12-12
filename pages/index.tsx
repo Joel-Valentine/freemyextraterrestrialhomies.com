@@ -39,6 +39,10 @@ const Chatroom: React.FC = () => {
       setChat([...chat]);
     });
 
+    socket.on("error", (err: any) => {
+      console.log(err);
+    });
+
     // socket disconnet onUnmount if exists
     if (socket) return () => socket.disconnect();
   }, []);
