@@ -66,6 +66,7 @@ const UFO = () => {
       src={imageUrl}
       alt="Unidentified Flying Object"
       style={{ position: "absolute", left: x, top: y }}
+      className="unselectable"
       width={120}
       height={60}
     />
