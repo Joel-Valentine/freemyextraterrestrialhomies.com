@@ -222,7 +222,7 @@ const Header = () => {
     setSearchResults(results);
   };
 
-  const [showUfo, setShowUfo] = useState(false);
+  const [showUfo, setShowUfo] = useState(true);
 
   const handleLogoClick = () => setShowUfo(!showUfo);
 
