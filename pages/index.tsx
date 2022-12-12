@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { io } from "socket.io-client";
+import UFO from "./ufo";
 
 interface IMsg {
   user: string;
@@ -45,7 +46,7 @@ const Chatroom: React.FC = () => {
 
     // socket disconnet onUnmount if exists
     if (socket) return () => socket.disconnect();
-  }, []);
+  });
 
   const sendMessage = async () => {
     if (msg) {
@@ -113,6 +114,7 @@ const Chatroom: React.FC = () => {
     </div>
   );
 };
+
 const aliensmeta: Alien[] = [
   {
     name: "Zorgath",
@@ -220,11 +222,25 @@ const Header = () => {
     setSearchResults(results);
   };
 
+  const [showUfo, setShowUfo] = useState(false);
+
+  const handleLogoClick = () => setShowUfo(!showUfo);
+
+  useEffect(() =>
+    window.addEventListener("explodeUfo", () =>
+      setTimeout(() => setShowUfo(false), 1000)
+    )
+  );
+
   return (
     <>
       <div className="header-container">
         <h1 className="header-title">FREE MY EXTRATERRESTRIAL HOMIES</h1>
-        <Logo />
+        <div onClick={handleLogoClick}>
+          <Logo />
+        </div>
+
+        {showUfo && <UFO />}
 
         <p className="header-subtitle">
           A Campaign for Equal Rights for All Beings
