@@ -46,7 +46,7 @@ const Chatroom: React.FC = () => {
 
     // socket disconnet onUnmount if exists
     if (socket) return () => socket.disconnect();
-  }, []);
+  });
 
   const sendMessage = async () => {
     if (msg) {

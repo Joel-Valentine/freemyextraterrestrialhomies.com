@@ -5,18 +5,14 @@ const ufoImage = "/ufo clipart surrounded by white background.png";
 const explosionImage = "/clipart explosion with white background.png";
 
 const UFO = () => {
-  const screenWidth = window.innerWidth - 120;
-  const screenHeight = window.innerHeight - 60;
-  const windowWidth = window.document.documentElement.scrollWidth - 60;
-  const windowHeight = window.document.documentElement.scrollHeight - 60;
-
-  const [x, setX] = useState(Math.random() * screenWidth);
-  const [y, setY] = useState(Math.random() * screenHeight);
+  const [x, setX] = useState(1);
+  const [y, setY] = useState(1);
   const [dx, setDx] = useState(2);
   const [dy, setDy] = useState(1);
   const [imageUrl, setImageUrl] = useState(ufoImage);
   const [outOfXBounds, setOutOfXBounds] = useState(false);
   const [outOfYBounds, setOutOfYBounds] = useState(false);
+  const [initialSet, setInitialSet] = useState(true);
 
   const explodeUfo = () => {
     setImageUrl(explosionImage);
@@ -24,8 +20,18 @@ const UFO = () => {
   };
 
   useEffect(() => {
+    const screenWidth = window.innerWidth - 120;
+    const screenHeight = window.innerHeight - 60;
+    const windowHeight = window.document.documentElement.scrollHeight - 60;
+
     if (imageUrl === explosionImage) {
       return;
+    }
+
+    if (initialSet) {
+      setX(Math.random() * screenWidth);
+      setY(Math.random() * screenHeight);
+      setInitialSet(false);
     }
 
     const move = setInterval(() => {
@@ -52,7 +58,7 @@ const UFO = () => {
     }, 5);
 
     return () => clearInterval(move);
-  });
+  }, [x]);
 
   return (
     <Image
