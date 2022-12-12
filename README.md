@@ -36,4 +36,4 @@ It is very likely that openais chatbot does not follow best standards or even go
 
 ## Problems
 - Often openais chat would get stuck answering a question and would not complete the answer, resulting in many retries
-- It was able to suggest to build a chatroom, but unable to produce working code for it. I ended up using https://betterprogramming.pub/socket-io-and-nextjs-build-real-time-chat-application-part-1-976555ecba as a guide
+- It was able to suggest to build a chatroom, but unable to produce working code for it. I ended up using https://codesandbox.io/s/piffv?file=/package.json:697-707 as a guide
