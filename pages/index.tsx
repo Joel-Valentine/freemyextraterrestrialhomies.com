@@ -20,9 +20,10 @@ const Chatroom: React.FC = () => {
   const [chat, setChat] = useState<IMsg[]>([]);
   const [msg, setMsg] = useState<string>("");
 
+  // @ts-ignore
   useEffect(() => {
     // connect to socket server
-    const socket = io(process.env.BASE_URL, {
+    const socket = io({
       path: "/api/socketio",
     });
 
