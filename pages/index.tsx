@@ -20,8 +20,9 @@ const Chatroom: React.FC = () => {
   const [chat, setChat] = useState<IMsg[]>([]);
   const [msg, setMsg] = useState<string>("");
 
-  useEffect((): any => {
+  useEffect(() => {
     // connect to socket server
+    // @ts-ignore
     const socket = SocketIOClient.connect(process.env.BASE_URL, {
       path: "/api/socketio",
     });
@@ -62,9 +63,6 @@ const Chatroom: React.FC = () => {
       // reset field if OK
       if (resp.ok) setMsg("");
     }
-
-    // focus after click
-    inputRef?.current?.focus();
   };
 
   return (
