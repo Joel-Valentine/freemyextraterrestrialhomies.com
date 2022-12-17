@@ -55,7 +55,7 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
 
       setX(x + dx + Math.sin(y / 200));
       setY(y + dy + Math.cos(x / 200));
-    }, 6);
+    }, 5 + Math.round(5 * Math.random()));
 
     return () => clearInterval(move);
   }, [x, y]);
