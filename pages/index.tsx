@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import UFO from "./ufo";
+import { UnidentifiedFlyingObject } from "./ufo";
+import { Ufo } from "./types";
 import { Chatroom } from "./chatroom";
 import { aliensmeta } from "./data";
 import { Alien } from "./types";
@@ -41,15 +42,22 @@ const Header = () => {
     setSearchResults(results);
   };
 
-  const [showUfo, setShowUfo] = useState(true);
+  const [ufos, setUfos] = useState<Ufo[]>([]);
+  const handleLogoClick = () => setUfos([...ufos, { id: Date.now() }]);
 
-  const handleLogoClick = () => setShowUfo(!showUfo);
+  useEffect(() => {
+    const handleExplodeUfo = (event: any) => {
+      const ufo = event.detail;
 
-  useEffect(() =>
-    window.addEventListener("explodeUfo", () =>
-      setTimeout(() => setShowUfo(false), 1000)
-    )
-  );
+      setTimeout(() => {
+        setUfos((prevUfos) => prevUfos.filter((item) => item.id !== ufo.id));
+      }, 1000);
+    };
+
+    window.addEventListener("explodeUfo", handleExplodeUfo);
+
+    return () => window.removeEventListener("explodeUfo", handleExplodeUfo);
+  }, [ufos]);
 
   return (
     <>
@@ -59,7 +67,9 @@ const Header = () => {
           <Logo />
         </div>
 
-        {showUfo && <UFO />}
+        {ufos.map((ufo) => (
+          <UnidentifiedFlyingObject key={ufo.id} ufo={ufo} />
+        ))}
 
         <p className="header-subtitle">
           A Campaign for Equal Rights for All Beings
@@ -74,6 +84,7 @@ const Header = () => {
           />
         </div>
       </div>
+
       <AllAliens aliens={searchResults} />
     </>
   );

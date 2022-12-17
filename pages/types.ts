@@ -9,3 +9,7 @@ export interface IMsg {
   user: string;
   msg: string;
 }
+
+export interface Ufo {
+  id: number;
+}
