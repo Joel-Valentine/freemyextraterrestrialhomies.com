@@ -4,7 +4,7 @@ import Image from "next/image";
 const ufoImage = "/ufo clipart surrounded by white background.png";
 const explosionImage = "/clipart explosion with white background.png";
 
-export const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
+const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
   const [dx, setDx] = useState(2);
@@ -72,3 +72,5 @@ export const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
     />
   );
 };
+
+export default UnidentifiedFlyingObject;

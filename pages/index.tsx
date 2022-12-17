@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { UnidentifiedFlyingObject } from "./ufo";
-import { Ufo } from "./types";
-import { Chatroom } from "./chatroom";
-import { aliensmeta } from "./data";
-import { Alien } from "./types";
+import UnidentifiedFlyingObject from "./ufo";
+import { Ufo } from "./api/types";
+import Chatroom from "./chatroom";
+import { aliensmeta } from "./api/data";
+import { Alien } from "./api/types";
 
 const Mugshot = (alien: Alien) => {
   return (

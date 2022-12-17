@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
-import { IMsg } from "./types";
+import { IMsg } from "./api/types";
 
 const user = "User_" + String(new Date().getTime()).substr(-3);
 
-export const Chatroom: React.FC = () => {
+const Chatroom: React.FC = () => {
   const inputRef = useRef(null);
 
   const [connected, setConnected] = useState<boolean>(false);
@@ -86,3 +86,5 @@ export const Chatroom: React.FC = () => {
     </div>
   );
 };
+
+export default Chatroom;
