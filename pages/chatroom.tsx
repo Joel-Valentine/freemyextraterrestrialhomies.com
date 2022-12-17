@@ -1,10 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
-
-interface IMsg {
-  user: string;
-  msg: string;
-}
+import { IMsg } from "./types";
 
 const user = "User_" + String(new Date().getTime()).substr(-3);
 
