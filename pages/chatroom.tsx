@@ -15,6 +15,8 @@ const Chatroom: React.FC = () => {
   useEffect(() => {
     const socket = io({ path: "/api/socketio" });
 
+    console.log({ socket });
+
     socket.on("connect", () => {
       console.log("SOCKET CONNECTED!", socket.id);
       setConnected(true);

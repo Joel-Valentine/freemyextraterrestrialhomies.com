@@ -7,29 +7,27 @@ import { NextApiResponse } from "next";
 import { Server as SocketIOServer } from "socket.io";
 
 export type NextApiResponseServerIO = NextApiResponse & {
-  socket: Socket & {
-    server: NetServer & {
-      io: SocketIOServer;
-    };
-  };
+  socket: Socket & { server: NetServer & { io: SocketIOServer } };
 };
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const config = { api: { bodyParser: false } };
 
 const handle = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
+  console.log("called handle");
+
   if (!res.socket.server.io) {
+    console.log("if...");
+    console.log({ res });
     console.log("New Socket.io server...");
     // adapt Next's net Server to http Server
     const httpServer: NetServer = res.socket.server as any;
-    const io = new ServerIO(httpServer, {
-      path: "/api/socketio",
-    });
+    const io = new ServerIO(httpServer, { path: "/api/socketio" });
+    console.log({ io });
     // append SocketIO server to Next.js socket server response
     res.socket.server.io = io;
+  } else {
+    console.log("else...");
+    console.log({ res });
   }
   res.end();
 };
