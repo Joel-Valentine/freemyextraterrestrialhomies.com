@@ -43,7 +43,10 @@ const Header = () => {
   };
 
   const [ufos, setUfos] = useState<Ufo[]>([]);
+  const [ufoCount, setUfoCount] = useState(0);
   const handleLogoClick = () => setUfos([...ufos, { id: Date.now() }]);
+
+  useEffect(() => setUfoCount(+(localStorage.getItem("ufoCount") ?? 0)), []);
 
   useEffect(() => {
     const handleExplodeUfo = (event: any) => {
@@ -51,6 +54,13 @@ const Header = () => {
 
       setTimeout(() => {
         setUfos((prevUfos) => prevUfos.filter((item) => item.id !== ufo.id));
+
+        setUfoCount((prevUfoExplosionCount) => {
+          const newUfoExplosionCount = (prevUfoExplosionCount += 1);
+          localStorage.setItem("ufoCount", newUfoExplosionCount.toString());
+
+          return newUfoExplosionCount;
+        });
       }, 1000);
     };
 
@@ -74,6 +84,9 @@ const Header = () => {
         <p className="header-subtitle">
           A Campaign for Equal Rights for All Beings
         </p>
+
+        {ufoCount !== 0 && <p className="header-subtitle">UFOs: {ufoCount}</p>}
+
         <div className="header-search">
           <input
             type="text"
