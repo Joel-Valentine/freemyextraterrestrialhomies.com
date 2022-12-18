@@ -14,6 +14,7 @@ const Chatroom: React.FC = () => {
   // @ts-ignore
   useEffect(() => {
     const socket = io({ path: "/api/socketio" });
+    console.log({ socket });
 
     socket.on("connect", () => {
       console.log("SOCKET CONNECTED!", socket.id);
@@ -68,7 +69,9 @@ const Chatroom: React.FC = () => {
               value={msg}
               placeholder={connected ? "Type a message..." : "Connecting..."}
               disabled={!connected}
-              onChange={(e) => setMsg(e.target.value)}
+              onChange={(e) => {
+                setMsg(e.target.value);
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") sendMessage();
               }}
