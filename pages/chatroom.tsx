@@ -7,7 +7,7 @@ const user = "User_" + String(new Date().getTime()).substr(-3);
 const Chatroom: React.FC = () => {
   const inputRef = useRef(null);
 
-  const [connected, setConnected] = useState<boolean>(true);
+  const [connected, setConnected] = useState<boolean>(false);
   const [chat, setChat] = useState<IMsg[]>([]);
   const [msg, setMsg] = useState<string>("");
 
@@ -29,8 +29,8 @@ const Chatroom: React.FC = () => {
       console.log(err);
     });
 
-    if (socket) return () => socket.disconnect();
-  }, [connected, chat, msg]);
+    return () => socket?.disconnect();
+  }, []);
 
   const sendMessage = async () => {
     if (msg) {
