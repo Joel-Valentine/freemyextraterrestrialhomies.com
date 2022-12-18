@@ -4,7 +4,7 @@ import Image from "next/image";
 const ufoImage = "/ufo clipart surrounded by white background.png";
 const explosionImage = "/clipart explosion with white background.png";
 
-const UFO = () => {
+const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
   const [dx, setDx] = useState(2);
@@ -16,7 +16,7 @@ const UFO = () => {
 
   const explodeUfo = () => {
     setImageUrl(explosionImage);
-    window.dispatchEvent(new CustomEvent("explodeUfo"));
+    window.dispatchEvent(new CustomEvent("explodeUfo", { detail: ufo }));
   };
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const UFO = () => {
 
       setX(x + dx + Math.sin(y / 200));
       setY(y + dy + Math.cos(x / 200));
-    }, 6);
+    }, 5 + Math.round(5 * Math.random()));
 
     return () => clearInterval(move);
   }, [x, y]);
@@ -73,4 +73,4 @@ const UFO = () => {
   );
 };
 
-export default UFO;
+export default UnidentifiedFlyingObject;
