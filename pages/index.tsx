@@ -85,7 +85,9 @@ const Header = () => {
           A Campaign for Equal Rights for All Beings
         </p>
 
-        {ufoCount !== 0 && <p className="header-subtitle">UFOs: {ufoCount}</p>}
+        {ufoCount !== 0 && (
+          <p className="header-subtitle">UFOs: {ufoCount.toLocaleString()}</p>
+        )}
 
         <div className="header-search">
           <input
