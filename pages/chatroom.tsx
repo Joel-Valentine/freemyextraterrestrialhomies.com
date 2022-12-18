@@ -7,7 +7,7 @@ const user = "User_" + String(new Date().getTime()).substr(-3);
 const Chatroom: React.FC = () => {
   const inputRef = useRef(null);
 
-  const [connected, setConnected] = useState<boolean>(false);
+  const [connected, setConnected] = useState<boolean>(true);
   const [chat, setChat] = useState<IMsg[]>([]);
   const [msg, setMsg] = useState<string>("");
 
