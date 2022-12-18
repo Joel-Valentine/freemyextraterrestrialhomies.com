@@ -16,6 +16,7 @@ const Chatroom: React.FC = () => {
     const socket = io({ path: "/api/socketio" });
 
     socket.on("connect", () => {
+      console.log("SOCKET CONNECTED!", socket.id);
       setConnected(true);
     });
 
@@ -29,7 +30,7 @@ const Chatroom: React.FC = () => {
     });
 
     if (socket) return () => socket.disconnect();
-  });
+  }, [connected]);
 
   const sendMessage = async () => {
     if (msg) {
