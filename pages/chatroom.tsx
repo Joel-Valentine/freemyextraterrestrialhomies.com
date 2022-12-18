@@ -30,7 +30,7 @@ const Chatroom: React.FC = () => {
     });
 
     if (socket) return () => socket.disconnect();
-  }, [connected]);
+  }, [connected, chat, msg]);
 
   const sendMessage = async () => {
     if (msg) {
@@ -68,9 +68,7 @@ const Chatroom: React.FC = () => {
               value={msg}
               placeholder={connected ? "Type a message..." : "Connecting..."}
               disabled={!connected}
-              onChange={(e) => {
-                setMsg(e.target.value);
-              }}
+              onChange={(e) => setMsg(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") sendMessage();
               }}
