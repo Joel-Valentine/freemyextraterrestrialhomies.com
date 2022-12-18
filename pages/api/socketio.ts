@@ -21,14 +21,19 @@ export const config = {
 };
 
 const handle = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
-  console.log("handle");
+  console.log("called handle...");
+
+  console.log("\n\n");
+  console.log("connecting...");
+  console.log(res.socket.connecting);
+  console.log("allowHalfOpen...");
+  console.log(res.socket.allowHalfOpen);
+  console.log("server...");
+  console.log(res.socket.server);
+  console.log("\n\n");
 
   if (!res.socket.server.io) {
     console.log("New Socket.io server...");
-    console.log("socket...");
-    console.log(res.socket);
-    console.log("server...");
-    console.log(res.socket.server);
     // adapt Next's net Server to http Server
     const httpServer: NetServer = res.socket.server as any;
     const io = new ServerIO(httpServer, {
@@ -38,10 +43,6 @@ const handle = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
     res.socket.server.io = io;
   } else {
     console.log("else...");
-    console.log("socket...");
-    console.log(res.socket);
-    console.log("server...");
-    console.log(res.socket.server);
   }
   res.end();
 };
