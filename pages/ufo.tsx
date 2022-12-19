@@ -34,9 +34,8 @@ const UnidentifiedFlyingObject = ({
   const [outOfYBounds, setOutOfYBounds] = useState(false);
   const [initialSet, setInitialSet] = useState(true);
 
-  const clickUfo = () => {
+  function clickUfo() {
     ufoProperties.health -= 1;
-
     const { score, health } = ufoProperties;
 
     if (health === 0) {
@@ -45,7 +44,7 @@ const UnidentifiedFlyingObject = ({
         new CustomEvent("destroyUfo", { detail: { ufo, score } })
       );
     }
-  };
+  }
 
   useEffect(() => {
     const screenWidth = window.innerWidth - ufoProperties.width;
