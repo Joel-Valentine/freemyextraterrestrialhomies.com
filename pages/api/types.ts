@@ -14,7 +14,7 @@ export interface UfoProperties {
   width: number;
   height: number;
   refreshRate: number; // higher is slower
-  // health: number; // TODO: one health is one click. perhaps images change as health decreases
+  health: number;
   // leftclicks: boolean; // TODO: some ufos could require right clicks rather than left clicks
   // rarity: number; // TODO: // how often a ufo spawns
   // score: number; // TODO: how many points a user gets for exploding a ufo. could add score for damage too

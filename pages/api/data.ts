@@ -74,6 +74,7 @@ export const ufos: UfoProperties[] = [
     width: 120,
     height: 60,
     refreshRate: 10,
+    health: 2,
   },
   {
     id: 2,
@@ -84,6 +85,7 @@ export const ufos: UfoProperties[] = [
     width: 240,
     height: 120,
     refreshRate: 15,
+    health: 5,
   },
   {
     id: 3,
@@ -94,5 +96,6 @@ export const ufos: UfoProperties[] = [
     width: 60,
     height: 30,
     refreshRate: 5,
+    health: 1,
   },
 ];

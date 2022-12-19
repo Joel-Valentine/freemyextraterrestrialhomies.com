@@ -20,9 +20,13 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: UfoComponent }) => {
   const [outOfYBounds, setOutOfYBounds] = useState(false);
   const [initialSet, setInitialSet] = useState(true);
 
-  const explodeUfo = () => {
-    setImageUrl(explosionImage);
-    window.dispatchEvent(new CustomEvent("explodeUfo", { detail: ufo }));
+  const clickUfo = () => {
+    ufoProperties.health -= 1;
+
+    if (ufoProperties.health === 0) {
+      setImageUrl(explosionImage);
+      window.dispatchEvent(new CustomEvent("explodeUfo", { detail: ufo }));
+    }
   };
 
   useEffect(() => {
@@ -73,7 +77,7 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: UfoComponent }) => {
     <>
       {!initialSet && (
         <Image
-          onClick={explodeUfo}
+          onClick={clickUfo}
           src={imageUrl}
           alt="Unidentified Flying Object"
           style={{ position: "absolute", left: x, top: y }}
