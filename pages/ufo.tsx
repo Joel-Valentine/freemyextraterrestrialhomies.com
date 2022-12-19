@@ -22,9 +22,9 @@ function randomUfo(currentScore: number): ExtendedUfoProperties {
     .filter((ufo) => ufo.minimumScore <= currentScore)
     .flatMap((ufo): UfoProperties[] => new Array(ufo.rarity).fill(ufo));
 
-  const ufo = weightedUfos[
+  const ufo = (weightedUfos[
     Math.round(Math.random() * (weightedUfos.length - 1))
-  ] as ExtendedUfoProperties;
+  ] ?? ufos[0]) as ExtendedUfoProperties;
 
   ufo.xFactor = randomDirectionFactor();
   ufo.yFactor = randomDirectionFactor();
