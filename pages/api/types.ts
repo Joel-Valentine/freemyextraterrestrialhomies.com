@@ -7,11 +7,10 @@ export interface Alien {
 
 export interface UfoProperties {
   id: number;
+  name: string;
   src: string;
   dx: number;
   dy: number;
-  xFactor: (x: number, y: number) => number;
-  yFactor: (x: number, y: number) => number;
   width: number;
   height: number;
   refreshRate: number; // higher is slower

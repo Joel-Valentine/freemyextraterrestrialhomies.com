@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { ufos } from "./api/data";
-import { UfoProperties } from "./api/types";
+import { UfoComponent } from "./api/types";
 
 const explosionImage = "/clipart explosion with white background.png";
 
-const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
-  const [ufoPropertiesValue] = useState<UfoProperties>({} as UfoProperties);
+const UnidentifiedFlyingObject = ({ ufo }: { ufo: UfoComponent }) => {
   const ufoProperties = useMemo(
     () => ufos[Math.floor(Math.random() * ufos.length)],
-    [ufoPropertiesValue]
+    []
   );
 
   const [x, setX] = useState(-100);
@@ -39,6 +38,8 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
     if (initialSet) {
       setX(Math.random() * screenWidth);
       setY(Math.random() * screenHeight);
+      setDx((Math.random() > 0.5 ? 1 : -1) * dx);
+      setDy((Math.random() > 0.5 ? 1 : -1) * dy);
       setInitialSet(false);
     }
 
@@ -61,23 +62,27 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
         setOutOfYBounds(false);
       }
 
-      setX(x + dx + ufoProperties.xFactor(x, y));
-      setY(y + dy + ufoProperties.yFactor(x, y));
+      setX(x + dx + Math.sin(y / 200));
+      setY(y + dy + Math.cos(x / 200));
     }, ufoProperties.refreshRate);
 
     return () => clearInterval(move);
   }, [x, y]);
 
   return (
-    <Image
-      onClick={explodeUfo}
-      src={imageUrl}
-      alt="Unidentified Flying Object"
-      style={{ position: "absolute", left: x, top: y }}
-      className="unselectable"
-      width={ufoProperties.width}
-      height={ufoProperties.height}
-    />
+    <>
+      {!initialSet && (
+        <Image
+          onClick={explodeUfo}
+          src={imageUrl}
+          alt="Unidentified Flying Object"
+          style={{ position: "absolute", left: x, top: y }}
+          className="unselectable"
+          width={ufoProperties.width}
+          height={ufoProperties.height}
+        />
+      )}
+    </>
   );
 };
 
