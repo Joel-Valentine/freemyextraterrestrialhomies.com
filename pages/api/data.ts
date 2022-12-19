@@ -77,6 +77,7 @@ export const ufos: UfoProperties[] = [
     health: 2,
     rarity: 5,
     score: 50,
+    minimumScore: 0,
   },
   {
     id: 2,
@@ -90,6 +91,7 @@ export const ufos: UfoProperties[] = [
     health: 5,
     rarity: 2,
     score: 75,
+    minimumScore: 100,
   },
   {
     id: 3,
@@ -103,5 +105,6 @@ export const ufos: UfoProperties[] = [
     health: 1,
     rarity: 2,
     score: 100,
+    minimumScore: 200,
   },
 ];

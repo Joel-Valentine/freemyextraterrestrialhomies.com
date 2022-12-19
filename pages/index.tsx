@@ -137,7 +137,11 @@ const Header = () => {
       </div>
 
       {ufoComponents.map((ufo) => (
-        <UnidentifiedFlyingObject key={ufo.id} ufo={ufo} />
+        <UnidentifiedFlyingObject
+          key={ufo.id}
+          ufo={ufo}
+          currentScore={ufoScore}
+        />
       ))}
 
       <AllAliens aliens={searchResults} />

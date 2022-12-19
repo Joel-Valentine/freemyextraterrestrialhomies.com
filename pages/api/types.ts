@@ -18,7 +18,7 @@ export interface UfoProperties {
   // leftclicks: boolean; // TODO: some ufos could require right clicks rather than left clicks
   rarity: number; // higher rarity means a UFO is more likely to spawn
   score: number;
-  // minimumScore: number; // TODO: the total score required for this type of ufo to spawn
+  minimumScore: number; // the total score required for this type of UFO to spawn
   // soundEffect: string; // TODO: add sound effects for UFOs?
 }
 

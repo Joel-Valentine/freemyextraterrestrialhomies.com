@@ -5,18 +5,25 @@ import { UfoComponent, UfoProperties } from "./api/types";
 
 const explosionImage = "/clipart explosion with white background.png";
 
-function getRandomUfo(): UfoProperties {
-  const weightedUfos = ufos.flatMap((ufo): UfoProperties[] =>
-    new Array(ufo.rarity).fill(ufo)
-  );
+function getRandomUfo(currentScore: number): UfoProperties {
+  const weightedUfos = ufos
+    .filter((ufo) => ufo.minimumScore <= currentScore)
+    .flatMap((ufo): UfoProperties[] => new Array(ufo.rarity).fill(ufo));
 
-  const ufo = weightedUfos[Math.round(Math.random() * weightedUfos.length)];
+  const ufo =
+    weightedUfos[Math.round(Math.random() * (weightedUfos.length - 1))];
 
   return { ...ufo };
 }
 
-const UnidentifiedFlyingObject = ({ ufo }: { ufo: UfoComponent }) => {
-  const ufoProperties = useMemo(() => getRandomUfo(), []);
+const UnidentifiedFlyingObject = ({
+  ufo,
+  currentScore,
+}: {
+  ufo: UfoComponent;
+  currentScore: number;
+}) => {
+  const ufoProperties = useMemo(() => getRandomUfo(currentScore), []);
 
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
