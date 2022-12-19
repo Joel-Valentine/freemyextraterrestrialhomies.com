@@ -30,9 +30,13 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: UfoComponent }) => {
   const clickUfo = () => {
     ufoProperties.health -= 1;
 
-    if (ufoProperties.health === 0) {
+    const { score, health } = ufoProperties;
+
+    if (health === 0) {
       setImageUrl(explosionImage);
-      window.dispatchEvent(new CustomEvent("explodeUfo", { detail: ufo }));
+      window.dispatchEvent(
+        new CustomEvent("destroyUfo", { detail: { ufo, score } })
+      );
     }
   };
 

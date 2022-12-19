@@ -33,66 +33,96 @@ const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(aliensmeta);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
     const results = aliensmeta.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchResults(results);
-  };
+  }
 
-  /**
-   *  TODO: Instead of a counter for UFOs, make it a score that resets on page load. Store the
-   *  highest score and show it. Show most recent score addition above total score for a short
-   *  time or until another score addition occurs. Add colours to score additions based on magnitude
-   *  of score.
-   */
-  const [ufos, setUfos] = useState<UfoComponent[]>([]);
-  const [ufoCount, setUfoCount] = useState(0);
-  const handleLogoClick = () => setUfos([...ufos, { id: Date.now() }]);
+  const [ufoComponents, setUfoComponents] = useState<UfoComponent[]>([]);
+  const [ufoScore, setUfoScore] = useState(-1);
+  const [ufoRecentScore, setUfoRecentScore] = useState(0);
+  const [ufoHighScore, setUfoHighScore] = useState(0);
 
-  useEffect(() => setUfoCount(+(localStorage.getItem("ufoCount") ?? 0)), []);
+  function spawnUfo() {
+    setUfoComponents([...ufoComponents, { id: Date.now() }]);
+    if (ufoScore < 0) setUfoScore(0);
+  }
+
+  function destroyUfo(
+    event: CustomEvent<{ ufo: UfoComponent; score: number }>
+  ) {
+    const { ufo, score } = event.detail;
+
+    setUfoRecentScore(score);
+
+    setTimeout(() => {
+      // after 1000ms...
+      setUfoComponents((prevUfos) => prevUfos.filter((u) => u.id !== ufo.id));
+
+      setUfoScore((prevUfoScore) => {
+        const newScore = (prevUfoScore += score);
+
+        if (newScore > ufoHighScore) {
+          localStorage.setItem("ufoHighScore", newScore.toString());
+          setUfoHighScore(newScore);
+        }
+
+        return newScore;
+      });
+
+      setUfoRecentScore(0);
+    }, 1000);
+  }
 
   useEffect(() => {
-    const handleExplodeUfo = (event: any) => {
-      const ufo = event.detail;
+    setUfoHighScore(+(localStorage.getItem("ufoHighScore") ?? 0));
 
-      setTimeout(() => {
-        setUfos((prevUfos) => prevUfos.filter((item) => item.id !== ufo.id));
+    window.addEventListener(
+      "destroyUfo",
+      destroyUfo as EventListenerOrEventListenerObject
+    );
 
-        setUfoCount((prevUfoExplosionCount) => {
-          const newUfoExplosionCount = (prevUfoExplosionCount += 1);
-          localStorage.setItem("ufoCount", newUfoExplosionCount.toString());
-
-          return newUfoExplosionCount;
-        });
-      }, 1000);
-    };
-
-    window.addEventListener("explodeUfo", handleExplodeUfo);
-
-    return () => window.removeEventListener("explodeUfo", handleExplodeUfo);
-  }, [ufos]);
+    return () =>
+      window.removeEventListener(
+        "destroyUfo",
+        destroyUfo as EventListenerOrEventListenerObject
+      );
+  });
 
   return (
     <>
       <div className="header-container">
         <h1 className="header-title">FREE MY EXTRATERRESTRIAL HOMIES</h1>
-        <div onClick={handleLogoClick}>
+        <div onClick={spawnUfo}>
           <Logo />
         </div>
-
-        {ufos.map((ufo) => (
-          <UnidentifiedFlyingObject key={ufo.id} ufo={ufo} />
-        ))}
 
         <p className="header-subtitle">
           A Campaign for Equal Rights for All Beings
         </p>
 
-        {ufoCount !== 0 && (
-          <p className="header-subtitle">UFOs: {ufoCount.toLocaleString()}</p>
+        {ufoScore >= 0 && (
+          <div>
+            <p className="score-text">
+              Score: {ufoScore.toLocaleString()}
+              {ufoRecentScore !== 0 && (
+                <span className="green-text"> +{ufoRecentScore}</span>
+              )}
+            </p>
+            <p
+              className={
+                ufoScore === ufoHighScore
+                  ? "score-text green-text"
+                  : "score-text"
+              }
+            >
+              High Score: {ufoHighScore.toLocaleString()}
+            </p>
+          </div>
         )}
 
         <div className="header-search">
@@ -105,6 +135,10 @@ const Header = () => {
           />
         </div>
       </div>
+
+      {ufoComponents.map((ufo) => (
+        <UnidentifiedFlyingObject key={ufo.id} ufo={ufo} />
+      ))}
 
       <AllAliens aliens={searchResults} />
     </>
