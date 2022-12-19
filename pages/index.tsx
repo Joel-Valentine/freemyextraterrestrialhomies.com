@@ -42,6 +42,12 @@ const Header = () => {
     setSearchResults(results);
   };
 
+  /**
+   *  TODO: Instead of a counter for UFOs, make it a score that resets on page load. Store the
+   *  highest score and show it. Show most recent score addition above total score for a short
+   *  time or until another score addition occurs. Add colours to score additions based on magnitude
+   *  of score.
+   */
   const [ufos, setUfos] = useState<UfoComponent[]>([]);
   const [ufoCount, setUfoCount] = useState(0);
   const handleLogoClick = () => setUfos([...ufos, { id: Date.now() }]);
