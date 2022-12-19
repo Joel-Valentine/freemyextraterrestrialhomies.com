@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { ufos } from "./api/data";
+import { UfoProperties } from "./api/types";
 
 const explosionImage = "/clipart explosion with white background.png";
 
 const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
-  const ufoProperties = ufos[Math.floor(Math.random() * ufos.length)];
+  const [ufoPropertiesValue] = useState<UfoProperties>({} as UfoProperties);
+  const ufoProperties = useMemo(
+    () => ufos[Math.floor(Math.random() * ufos.length)],
+    [ufoPropertiesValue]
+  );
 
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
@@ -22,9 +27,10 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
   };
 
   useEffect(() => {
-    const screenWidth = window.innerWidth - 120;
-    const screenHeight = window.innerHeight - 60;
-    const windowHeight = window.document.documentElement.scrollHeight - 60;
+    const screenWidth = window.innerWidth - ufoProperties.width;
+    const screenHeight = window.innerHeight - ufoProperties.height;
+    const windowHeight =
+      window.document.documentElement.scrollHeight - ufoProperties.height;
 
     if (imageUrl === explosionImage) {
       return;

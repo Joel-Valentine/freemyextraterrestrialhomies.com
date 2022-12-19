@@ -76,4 +76,15 @@ export const ufos: UfoProperties[] = [
     height: 60,
     refreshRate: 6,
   },
+  {
+    id: 2,
+    src: "/ufos/ufo clipart surrounded by white background.png",
+    dx: 1,
+    dy: 2,
+    xFactor: (x, y) => Math.cos((y + x) / 200),
+    yFactor: (x) => Math.sin(x / 200),
+    width: 60,
+    height: 120,
+    refreshRate: 10,
+  },
 ];
