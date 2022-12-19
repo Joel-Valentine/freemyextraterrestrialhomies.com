@@ -97,7 +97,7 @@ const Header = () => {
     <>
       <div className="header-container">
         <h1 className="header-title">FREE MY EXTRATERRESTRIAL HOMIES</h1>
-        <div onClick={spawnUfo}>
+        <div onClick={spawnUfo} className="unselectable">
           <Logo />
         </div>
 

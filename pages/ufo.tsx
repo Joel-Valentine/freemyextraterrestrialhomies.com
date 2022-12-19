@@ -1,17 +1,33 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { ufos } from "./api/data";
-import { UfoComponent, UfoProperties } from "./api/types";
+import {
+  UfoComponent,
+  UfoProperties,
+  ExtendedUfoProperties,
+} from "./api/types";
 
 const explosionImage = "/clipart explosion with white background.png";
 
-function getRandomUfo(currentScore: number): UfoProperties {
+function randomDirectionFactor() {
+  const denominator = Math.floor(Math.random() * (300 - 50 + 1) + 50);
+  const useSin = Math.random() > 0.5 ? true : false;
+
+  return (val: number) =>
+    useSin ? Math.sin(val / denominator) : Math.cos(val / denominator);
+}
+
+function randomUfo(currentScore: number): ExtendedUfoProperties {
   const weightedUfos = ufos
     .filter((ufo) => ufo.minimumScore <= currentScore)
     .flatMap((ufo): UfoProperties[] => new Array(ufo.rarity).fill(ufo));
 
-  const ufo =
-    weightedUfos[Math.round(Math.random() * (weightedUfos.length - 1))];
+  const ufo = weightedUfos[
+    Math.round(Math.random() * (weightedUfos.length - 1))
+  ] as ExtendedUfoProperties;
+
+  ufo.xFactor = randomDirectionFactor();
+  ufo.yFactor = randomDirectionFactor();
 
   return { ...ufo };
 }
@@ -23,7 +39,7 @@ const UnidentifiedFlyingObject = ({
   ufo: UfoComponent;
   currentScore: number;
 }) => {
-  const ufoProperties = useMemo(() => getRandomUfo(currentScore), []);
+  const ufoProperties = useMemo(() => randomUfo(currentScore), []);
 
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
@@ -83,8 +99,8 @@ const UnidentifiedFlyingObject = ({
         setOutOfYBounds(false);
       }
 
-      setX(x + dx + Math.sin(y / 200));
-      setY(y + dy + Math.cos(x / 200));
+      setX(x + dx + ufoProperties.xFactor(y));
+      setY(y + dy + ufoProperties.yFactor(x));
     }, ufoProperties.refreshRate);
 
     return () => clearInterval(move);

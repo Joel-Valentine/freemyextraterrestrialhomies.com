@@ -20,6 +20,11 @@ export interface UfoProperties {
   minimumScore: number; // the total score required for this type of UFO to spawn
 }
 
+export interface ExtendedUfoProperties extends UfoProperties {
+  xFactor: (y: number) => number;
+  yFactor: (x: number) => number;
+}
+
 export interface IMsg {
   user: string;
   msg: string;
