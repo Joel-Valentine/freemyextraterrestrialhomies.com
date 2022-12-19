@@ -1,4 +1,4 @@
-import { Alien } from "./types";
+import { Alien, UfoProperties } from "./types";
 
 export const aliensmeta: Alien[] = [
   {
@@ -61,5 +61,19 @@ export const aliensmeta: Alien[] = [
     testimony:
       "They say I'm a danger to society, but I'm just a player trying to shine in this game of life.",
     src: "/alien-mugshots/extraterrestrial-alien-mug-shot-7.png",
+  },
+];
+
+export const ufos: UfoProperties[] = [
+  {
+    id: 1,
+    src: "/ufos/ufo clipart surrounded by white background.png",
+    dx: 2,
+    dy: 1,
+    xFactor: (_, y) => Math.sin(y / 200),
+    yFactor: (x) => Math.cos(x / 200),
+    width: 120,
+    height: 60,
+    refreshRate: 6,
   },
 ];

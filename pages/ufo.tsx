@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { ufos } from "./api/data";
 
-const ufoImage = "/ufo clipart surrounded by white background.png";
 const explosionImage = "/clipart explosion with white background.png";
 
 const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
+  const ufoProperties = ufos[Math.floor(Math.random() * ufos.length)];
+
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
-  const [dx, setDx] = useState(2);
-  const [dy, setDy] = useState(1);
-  const [imageUrl, setImageUrl] = useState(ufoImage);
+  const [dx, setDx] = useState(ufoProperties.dx);
+  const [dy, setDy] = useState(ufoProperties.dy);
+  const [imageUrl, setImageUrl] = useState(ufoProperties.src);
   const [outOfXBounds, setOutOfXBounds] = useState(false);
   const [outOfYBounds, setOutOfYBounds] = useState(false);
   const [initialSet, setInitialSet] = useState(true);
@@ -53,9 +55,9 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
         setOutOfYBounds(false);
       }
 
-      setX(x + dx + Math.sin(y / 200));
-      setY(y + dy + Math.cos(x / 200));
-    }, 5 + Math.round(5 * Math.random()));
+      setX(x + dx + ufoProperties.xFactor(x, y));
+      setY(y + dy + ufoProperties.yFactor(x, y));
+    }, ufoProperties.refreshRate);
 
     return () => clearInterval(move);
   }, [x, y]);
@@ -67,8 +69,8 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
       alt="Unidentified Flying Object"
       style={{ position: "absolute", left: x, top: y }}
       className="unselectable"
-      width={120}
-      height={60}
+      width={ufoProperties.width}
+      height={ufoProperties.height}
     />
   );
 };

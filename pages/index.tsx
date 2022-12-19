@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import UnidentifiedFlyingObject from "./ufo";
-import { Ufo } from "./api/types";
+import { UfoComponent } from "./api/types";
 import Chatroom from "./chatroom";
 import { aliensmeta } from "./api/data";
 import { Alien } from "./api/types";
@@ -42,7 +42,7 @@ const Header = () => {
     setSearchResults(results);
   };
 
-  const [ufos, setUfos] = useState<Ufo[]>([]);
+  const [ufos, setUfos] = useState<UfoComponent[]>([]);
   const [ufoCount, setUfoCount] = useState(0);
   const handleLogoClick = () => setUfos([...ufos, { id: Date.now() }]);
 
