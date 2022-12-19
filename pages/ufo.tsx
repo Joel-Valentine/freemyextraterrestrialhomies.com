@@ -1,15 +1,22 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { ufos } from "./api/data";
-import { UfoComponent } from "./api/types";
+import { UfoComponent, UfoProperties } from "./api/types";
 
 const explosionImage = "/clipart explosion with white background.png";
 
-const UnidentifiedFlyingObject = ({ ufo }: { ufo: UfoComponent }) => {
-  const ufoProperties = useMemo(
-    () => ufos[Math.floor(Math.random() * ufos.length)],
-    []
+function getRandomUfo(): UfoProperties {
+  const weightedUfos = ufos.flatMap((ufo): UfoProperties[] =>
+    new Array(ufo.rarity).fill(ufo)
   );
+
+  const ufo = weightedUfos[Math.round(Math.random() * weightedUfos.length)];
+
+  return { ...ufo };
+}
+
+const UnidentifiedFlyingObject = ({ ufo }: { ufo: UfoComponent }) => {
+  const ufoProperties = useMemo(() => getRandomUfo(), []);
 
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
