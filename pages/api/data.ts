@@ -1,4 +1,4 @@
-import { Alien } from "./types";
+import { Alien, UfoProperties } from "./types";
 
 export const aliensmeta: Alien[] = [
   {
@@ -61,5 +61,64 @@ export const aliensmeta: Alien[] = [
     testimony:
       "They say I'm a danger to society, but I'm just a player trying to shine in this game of life.",
     src: "/alien-mugshots/extraterrestrial-alien-mug-shot-7.png",
+  },
+];
+
+export const ufos: UfoProperties[] = [
+  {
+    id: 1,
+    name: "default boi",
+    src: "/ufos/yellow.png",
+    dx: 2,
+    dy: 1,
+    width: 120,
+    height: 60,
+    refreshRate: 10,
+    health: 1,
+    rarity: 5,
+    score: 25,
+    minimumScore: 0,
+  },
+  {
+    id: 2,
+    name: "fat boi",
+    src: "/ufos/red.png",
+    dx: 2,
+    dy: 1,
+    width: 240,
+    height: 120,
+    refreshRate: 15,
+    health: 3,
+    rarity: 3,
+    score: 75,
+    minimumScore: 100,
+  },
+  {
+    id: 3,
+    name: "speedy boi",
+    src: "/ufos/blue.png",
+    dx: 2,
+    dy: 1,
+    width: 60,
+    height: 30,
+    refreshRate: 5,
+    health: 1,
+    rarity: 3,
+    score: 100,
+    minimumScore: 200,
+  },
+  {
+    id: 4,
+    name: "rare boi",
+    src: "/ufos/green.png",
+    dx: 2,
+    dy: 2,
+    width: 100,
+    height: 50,
+    refreshRate: 7,
+    health: 2,
+    rarity: 2,
+    score: 200,
+    minimumScore: 300,
   },
 ];

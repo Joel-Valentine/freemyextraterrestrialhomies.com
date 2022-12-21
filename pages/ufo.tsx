@@ -1,28 +1,72 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
+import { ufos } from "./api/data";
+import {
+  UfoComponent,
+  UfoProperties,
+  ExtendedUfoProperties,
+} from "./api/types";
 
-const ufoImage = "/ufo clipart surrounded by white background.png";
 const explosionImage = "/clipart explosion with white background.png";
 
-const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
+function randomDirectionFactor() {
+  const denominator = Math.floor(Math.random() * (300 - 50 + 1) + 50);
+  const useSin = Math.random() > 0.5 ? true : false;
+
+  return (val: number) =>
+    useSin ? Math.sin(val / denominator) : Math.cos(val / denominator);
+}
+
+function randomUfo(currentScore: number): ExtendedUfoProperties {
+  const weightedUfos = ufos
+    .filter((ufo) => ufo.minimumScore <= currentScore)
+    .flatMap((ufo): UfoProperties[] => new Array(ufo.rarity).fill(ufo));
+
+  const ufo = (weightedUfos[
+    Math.round(Math.random() * (weightedUfos.length - 1))
+  ] ?? ufos[0]) as ExtendedUfoProperties;
+
+  ufo.xFactor = randomDirectionFactor();
+  ufo.yFactor = randomDirectionFactor();
+
+  return { ...ufo };
+}
+
+const UnidentifiedFlyingObject = ({
+  ufo,
+  currentScore,
+}: {
+  ufo: UfoComponent;
+  currentScore: number;
+}) => {
+  const ufoProperties = useMemo(() => randomUfo(currentScore), []);
+
   const [x, setX] = useState(-100);
   const [y, setY] = useState(-100);
-  const [dx, setDx] = useState(2);
-  const [dy, setDy] = useState(1);
-  const [imageUrl, setImageUrl] = useState(ufoImage);
+  const [dx, setDx] = useState(ufoProperties.dx);
+  const [dy, setDy] = useState(ufoProperties.dy);
+  const [imageUrl, setImageUrl] = useState(ufoProperties.src);
   const [outOfXBounds, setOutOfXBounds] = useState(false);
   const [outOfYBounds, setOutOfYBounds] = useState(false);
   const [initialSet, setInitialSet] = useState(true);
 
-  const explodeUfo = () => {
-    setImageUrl(explosionImage);
-    window.dispatchEvent(new CustomEvent("explodeUfo", { detail: ufo }));
-  };
+  function clickUfo() {
+    ufoProperties.health -= 1;
+    const { score, health } = ufoProperties;
+
+    if (health === 0) {
+      setImageUrl(explosionImage);
+      window.dispatchEvent(
+        new CustomEvent("destroyUfo", { detail: { ufo, score } })
+      );
+    }
+  }
 
   useEffect(() => {
-    const screenWidth = window.innerWidth - 120;
-    const screenHeight = window.innerHeight - 60;
-    const windowHeight = window.document.documentElement.scrollHeight - 60;
+    const screenWidth = window.innerWidth - ufoProperties.width;
+    const screenHeight = window.innerHeight - ufoProperties.height;
+    const windowHeight =
+      window.document.documentElement.scrollHeight - ufoProperties.height;
 
     if (imageUrl === explosionImage) {
       return;
@@ -31,6 +75,8 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
     if (initialSet) {
       setX(Math.random() * screenWidth);
       setY(Math.random() * screenHeight);
+      setDx((Math.random() > 0.5 ? 1 : -1) * dx);
+      setDy((Math.random() > 0.5 ? 1 : -1) * dy);
       setInitialSet(false);
     }
 
@@ -53,23 +99,27 @@ const UnidentifiedFlyingObject = ({ ufo }: { ufo: { id: number } }) => {
         setOutOfYBounds(false);
       }
 
-      setX(x + dx + Math.sin(y / 200));
-      setY(y + dy + Math.cos(x / 200));
-    }, 5 + Math.round(5 * Math.random()));
+      setX(x + dx + ufoProperties.xFactor(y));
+      setY(y + dy + ufoProperties.yFactor(x));
+    }, ufoProperties.refreshRate);
 
     return () => clearInterval(move);
   }, [x, y]);
 
   return (
-    <Image
-      onClick={explodeUfo}
-      src={imageUrl}
-      alt="Unidentified Flying Object"
-      style={{ position: "absolute", left: x, top: y }}
-      className="unselectable"
-      width={120}
-      height={60}
-    />
+    <>
+      {!initialSet && (
+        <Image
+          onClick={clickUfo}
+          src={imageUrl}
+          alt="Unidentified Flying Object"
+          style={{ position: "absolute", left: x, top: y }}
+          className="unselectable"
+          width={ufoProperties.width}
+          height={ufoProperties.height}
+        />
+      )}
+    </>
   );
 };
 

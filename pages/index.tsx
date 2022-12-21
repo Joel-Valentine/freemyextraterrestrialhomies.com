@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import UnidentifiedFlyingObject from "./ufo";
-import { Ufo } from "./api/types";
+import { UfoComponent } from "./api/types";
 import Chatroom from "./chatroom";
 import { aliensmeta } from "./api/data";
 import { Alien } from "./api/types";
@@ -33,47 +33,98 @@ const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(aliensmeta);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
     const results = aliensmeta.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchResults(results);
-  };
+  }
 
-  const [ufos, setUfos] = useState<Ufo[]>([]);
-  const handleLogoClick = () => setUfos([...ufos, { id: Date.now() }]);
+  const [ufoComponents, setUfoComponents] = useState<UfoComponent[]>([]);
+  const [ufoScore, setUfoScore] = useState(-1);
+  const [ufoRecentScore, setUfoRecentScore] = useState(0);
+  const [ufoHighScore, setUfoHighScore] = useState(0);
+
+  function spawnUfo() {
+    setUfoComponents([...ufoComponents, { id: Date.now() }]);
+    if (ufoScore < 0) setUfoScore(0);
+  }
+
+  function destroyUfo(
+    event: CustomEvent<{ ufo: UfoComponent; score: number }>
+  ) {
+    const { ufo, score } = event.detail;
+
+    setUfoRecentScore(score);
+
+    setTimeout(() => {
+      // after 1000ms...
+      setUfoComponents((prevUfos) => prevUfos.filter((u) => u.id !== ufo.id));
+
+      setUfoScore((prevUfoScore) => {
+        const newScore = (prevUfoScore += score);
+
+        if (newScore > ufoHighScore) {
+          localStorage.setItem("ufoHighScore", newScore.toString());
+          setUfoHighScore(newScore);
+        }
+
+        return newScore;
+      });
+
+      setUfoRecentScore(0);
+    }, 1000);
+  }
 
   useEffect(() => {
-    const handleExplodeUfo = (event: any) => {
-      const ufo = event.detail;
+    setUfoHighScore(+(localStorage.getItem("ufoHighScore") ?? 0));
 
-      setTimeout(() => {
-        setUfos((prevUfos) => prevUfos.filter((item) => item.id !== ufo.id));
-      }, 1000);
-    };
+    window.addEventListener(
+      "destroyUfo",
+      destroyUfo as EventListenerOrEventListenerObject
+    );
 
-    window.addEventListener("explodeUfo", handleExplodeUfo);
-
-    return () => window.removeEventListener("explodeUfo", handleExplodeUfo);
-  }, [ufos]);
+    return () =>
+      window.removeEventListener(
+        "destroyUfo",
+        destroyUfo as EventListenerOrEventListenerObject
+      );
+  });
 
   return (
     <>
       <div className="header-container">
         <h1 className="header-title">FREE MY EXTRATERRESTRIAL HOMIES</h1>
-        <div onClick={handleLogoClick}>
+        <div onClick={spawnUfo} className="unselectable">
           <Logo />
         </div>
-
-        {ufos.map((ufo) => (
-          <UnidentifiedFlyingObject key={ufo.id} ufo={ufo} />
-        ))}
 
         <p className="header-subtitle">
           A Campaign for Equal Rights for All Beings
         </p>
+
+        {ufoScore >= 0 && (
+          <div>
+            <p className="score-text">
+              Score: {ufoScore.toLocaleString()}
+              {ufoRecentScore !== 0 && (
+                <span className="green-text"> +{ufoRecentScore}</span>
+              )}
+            </p>
+            <p
+              className={
+                ufoScore === ufoHighScore
+                  ? "score-text green-text"
+                  : "score-text"
+              }
+            >
+              High Score: {ufoHighScore.toLocaleString()}
+            </p>
+          </div>
+        )}
+
         <div className="header-search">
           <input
             type="text"
@@ -84,6 +135,14 @@ const Header = () => {
           />
         </div>
       </div>
+
+      {ufoComponents.map((ufo) => (
+        <UnidentifiedFlyingObject
+          key={ufo.id}
+          ufo={ufo}
+          currentScore={ufoScore}
+        />
+      ))}
 
       <AllAliens aliens={searchResults} />
     </>
